@@ -321,7 +321,7 @@ it('defines the phase one capability catalog and snapshot boundary', function ()
         ->and($snapshot->toDatabase())
         ->toBe([
             'snapshot' => json_encode($snapshot->toArray(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
-            'snapshot_version' => 1,
+            'snapshot_version' => CopilotConversationSnapshot::VERSION,
             'last_turn_at' => null,
         ]);
 });

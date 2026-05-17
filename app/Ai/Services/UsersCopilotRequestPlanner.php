@@ -582,6 +582,10 @@ class UsersCopilotRequestPlanner
             );
         }
 
+        if ($this->matchPermissionSearchIntent($normalized) !== null) {
+            return null;
+        }
+
         if ($this->looksLikeActionProposal($normalized)
             && ! $this->isCreateUserProposal($normalized)
             && $this->extractEntitySearchQuery($normalized) === null) {

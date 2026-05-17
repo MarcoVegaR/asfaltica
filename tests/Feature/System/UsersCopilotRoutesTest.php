@@ -2,6 +2,7 @@
 
 use App\Ai\Agents\System\UsersCopilotAgent;
 use App\Ai\Agents\System\UsersGeminiCopilotAgent;
+use App\Ai\Support\CopilotConversationSnapshot;
 use App\Ai\Testing\BrowserCopilotFakeTransport;
 use App\Models\Role;
 use App\Models\User;
@@ -139,12 +140,12 @@ it('returns a real read-only message envelope and persists the conversation', fu
     expect($conversationId)->not->toBeEmpty()
         ->and(DB::table('agent_conversations')->where('id', $conversationId)->value('user_id'))->toBe($user->id)
         ->and(DB::table('agent_conversations')->where('id', $conversationId)->value('title'))->toBe('Busca usuarios inactivos.')
-        ->and(DB::table('agent_conversations')->where('id', $conversationId)->value('snapshot_version'))->toBe(1)
+        ->and(DB::table('agent_conversations')->where('id', $conversationId)->value('snapshot_version'))->toBe(CopilotConversationSnapshot::VERSION)
         ->and(json_decode((string) DB::table('agent_conversations')->where('id', $conversationId)->value('snapshot'), true, flags: JSON_THROW_ON_ERROR))
         ->toMatchArray([
             'last_filters' => ['status' => 'inactive'],
             'last_result_user_ids' => [],
-            'conversation_state_version' => 1,
+            'conversation_state_version' => CopilotConversationSnapshot::VERSION,
         ])
         ->and(DB::table('agent_conversation_messages')->where('conversation_id', $conversationId)->count())->toBe(2);
 
