@@ -22,6 +22,7 @@ use App\Ai\Services\Planning\Stages\InformationalHelpStage;
 use App\Ai\Services\Planning\Stages\MetricsStage;
 use App\Ai\Services\Planning\Stages\MixedCreateSearchStage;
 use App\Ai\Services\Planning\Stages\MixedMetricsSearchStage;
+use App\Ai\Services\Planning\Stages\PendingActionCancellationStage;
 use App\Ai\Services\Planning\Stages\PendingClarificationStage;
 use App\Ai\Services\Planning\Stages\PendingCreateUserStage;
 use App\Ai\Services\Planning\Stages\PermissionSearchStage;
@@ -132,6 +133,7 @@ class UsersCopilotRequestPlanner
         return $this->pipeline = new PlanningPipeline([
             new DenialStage,
             new StalenessConfirmationStage,
+            new PendingActionCancellationStage,
             new FollowUpStage,
             new ConversationContinuationStage,
             new PendingCreateUserStage,
@@ -671,6 +673,51 @@ class UsersCopilotRequestPlanner
         return $this->planFromClarificationOption($normalized, $matches[0]);
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function matchPendingActionCancellation(string $normalized, CopilotConversationSnapshot $snapshot): ?array
+    {
+        if (! is_array($snapshot->pendingActionProposal()) && ! is_array($snapshot->pendingCreateUser())) {
+            return null;
+        }
+
+        if (! $this->looksLikeCancellation($normalized)) {
+            return null;
+        }
+
+        return [
+            'request_normalization' => $normalized,
+            'intent_family' => 'help',
+            'capability_key' => 'users.actions.cancel_pending',
+            'filters' => $this->emptyFilters(),
+            'resolved_entity' => null,
+            'missing_slots' => [],
+            'clarification_state' => null,
+            'proposal_vs_execute' => 'none',
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function matchActionConfirmationWithoutPendingProposal(string $normalized, CopilotConversationSnapshot $snapshot): ?array
+    {
+        if (is_array($snapshot->pendingActionProposal()) || is_array($snapshot->pendingCreateUser())) {
+            return null;
+        }
+
+        if (! $this->looksLikeStandaloneActionConfirmation($normalized)) {
+            return null;
+        }
+
+        return $this->clarificationPlan(
+            normalized: $normalized,
+            reason: 'missing_context',
+            question: 'No tengo una propuesta pendiente que confirmar. Indica la accion y el usuario especifico antes de continuar.',
+        );
+    }
+
     protected function looksLikeNewIntent(string $normalized): bool
     {
         return preg_match('/\b(busca|buscar|lista|listar|muestra|mostrar|explica|como\s+puedo|cuantos|dame|encuentra|crear|crea)\b/u', $normalized) === 1;
@@ -706,6 +753,11 @@ class UsersCopilotRequestPlanner
         }
 
         return false;
+    }
+
+    protected function looksLikeCancellation(string $normalized): bool
+    {
+        return preg_match('/\b(cancela|cancelar|cancelalo|canc[eé]lalo|descarta|descartar|olvida|dejalo|d[eé]jalo|no\s+lo\s+hagas|mejor\s+no)\b/u', $normalized) === 1;
     }
 
     /**

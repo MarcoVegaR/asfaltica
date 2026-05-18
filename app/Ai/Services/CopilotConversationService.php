@@ -439,6 +439,26 @@ class CopilotConversationService
             ];
         }
 
+        if ($capabilityKey === 'users.actions.cancel_pending') {
+            return [
+                'family' => 'notice',
+                'capability_key' => 'users.actions.cancel_pending',
+                'outcome' => 'ok',
+                'cards' => [[
+                    'kind' => 'notice',
+                    'title' => 'Propuesta cancelada',
+                    'summary' => 'Cancelé la propuesta pendiente. No se ejecutó ninguna acción.',
+                    'data' => [
+                        'cancelled' => true,
+                    ],
+                ]],
+                'snapshot_updates' => [
+                    'pending_action_proposal' => null,
+                    'pending_create_user' => null,
+                ],
+            ];
+        }
+
         if ($capabilityKey === 'users.mixed.metrics_search') {
             return $this->usersCopilotCapabilityExecutor->executeMixedMetricsSearch(
                 $actor,

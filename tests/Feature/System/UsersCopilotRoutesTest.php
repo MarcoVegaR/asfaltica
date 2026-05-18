@@ -1127,6 +1127,57 @@ it('keeps incomplete create user proposals pending until required slots are prov
         ->assertJsonPath('response.requires_confirmation', true);
 });
 
+it('cancels a pending create user proposal before confirmation', function () {
+    $operatorRole = Role::factory()->active()->create();
+    $operatorRole->syncPermissions([
+        'system.users.view',
+        'system.users.create',
+        'system.users.assign-role',
+        'system.users-copilot.view',
+        'system.users-copilot.execute',
+    ]);
+    $user = User::factory()->withTwoFactor()->create();
+    $user->assignRole($operatorRole);
+    Role::factory()->active()->create([
+        'name' => 'admin',
+        'display_name' => 'Admin',
+    ])->syncPermissions(['system.users.view']);
+
+    $conversationId = $this->actingAs($user)
+        ->postJson(route('system.users.copilot.messages'), [
+            'prompt' => 'Prepara la creación de Quentin Execute quentin.execute@example.com con rol admin',
+        ])
+        ->assertSuccessful()
+        ->assertJsonPath('response.intent', 'action_proposal')
+        ->assertJsonPath('response.actions.0.can_execute', true)
+        ->json('conversation_id');
+
+    $this->actingAs($user)
+        ->postJson(route('system.users.copilot.messages'), [
+            'prompt' => 'cancela eso',
+            'conversation_id' => $conversationId,
+        ])
+        ->assertSuccessful()
+        ->assertJsonPath('response.intent', 'help')
+        ->assertJsonPath('response.meta.capability_key', 'users.actions.cancel_pending')
+        ->assertJsonPath('response.cards.0.kind', 'notice');
+
+    $snapshot = json_decode((string) DB::table('agent_conversations')->where('id', $conversationId)->value('snapshot'), true, flags: JSON_THROW_ON_ERROR);
+
+    expect(data_get($snapshot, 'pending_action_proposal'))->toBeNull()
+        ->and(data_get($snapshot, 'pending_create_user'))->toBeNull();
+
+    $this->actingAs($user)
+        ->postJson(route('system.users.copilot.messages'), [
+            'prompt' => 'confirma',
+            'conversation_id' => $conversationId,
+        ])
+        ->assertSuccessful()
+        ->assertJsonPath('response.resolution.state', 'missing_context');
+
+    expect(User::query()->where('email', 'quentin.execute@example.com')->exists())->toBeFalse();
+});
+
 it('denies continuing another users conversation', function () {
     $owner = authorizedCopilotOperator();
     $intruder = authorizedCopilotOperator();

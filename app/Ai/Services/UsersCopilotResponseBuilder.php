@@ -1123,6 +1123,7 @@ class UsersCopilotResponseBuilder
     protected function noticeAnswer(array $executionResult, array $plan): string
     {
         return match ($executionResult['capability_key'] ?? null) {
+            'users.actions.cancel_pending' => 'Cancelé la propuesta pendiente. No se ejecutó ninguna acción.',
             'users.roles.catalog' => 'Estos son los roles activos disponibles actualmente en el sistema.',
             'users.explain.permission' => $this->permissionExplainAnswer(is_array($executionResult['answer_facts'] ?? null) ? $executionResult['answer_facts'] : []),
             'users.explain.action' => $this->actionExplainAnswer(is_array($executionResult['answer_facts'] ?? null) ? $executionResult['answer_facts'] : []),
