@@ -1128,6 +1128,9 @@ it('keeps incomplete create user proposals pending until required slots are prov
 });
 
 it('cancels a pending create user proposal before confirmation', function () {
+    config()->set('ai.providers.openai.key', null);
+    UsersCopilotAgent::fake([])->preventStrayPrompts();
+
     $operatorRole = Role::factory()->active()->create();
     $operatorRole->syncPermissions([
         'system.users.view',

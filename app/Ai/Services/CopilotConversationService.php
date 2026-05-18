@@ -607,6 +607,7 @@ class CopilotConversationService
             'mixed_partial',
             'explain',
             'clarification',
+            'notice',
             // Fase 1a/1c: denied y continuation_confirm no necesitan provider.
             'denied',
             'continuation_confirm',
