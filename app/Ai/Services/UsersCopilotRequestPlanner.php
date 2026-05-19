@@ -928,6 +928,7 @@ class UsersCopilotRequestPlanner
         $resolvedUserId = is_array($resolvedEntity) && (($resolvedEntity['type'] ?? null) === 'user')
             ? ($resolvedEntity['id'] ?? null)
             : null;
+        $resolvedUserId ??= $this->firstOrdinalReferenceUserId($normalized, $snapshot);
         $resolvedUserId ??= $snapshot->singleResultUserId();
 
         if (! is_int($resolvedUserId)) {
@@ -2435,7 +2436,30 @@ class UsersCopilotRequestPlanner
 
     protected function looksLikeEntityReference(string $normalized): bool
     {
-        return preg_match('/\b(ese usuario|esa usuaria|el de arriba|la de arriba|desactivalo|reactivalo|restablecele|propon desactivarlo|propon activarlo)\b/u', $normalized) === 1;
+        return $this->looksLikeFirstOrdinalReference($normalized)
+            || preg_match('/\b(ese usuario|esa usuaria|el de arriba|la de arriba|desactivalo|reactivalo|restablecele|propon desactivarlo|propon activarlo)\b/u', $normalized) === 1;
+    }
+
+    protected function firstOrdinalReferenceUserId(string $normalized, CopilotConversationSnapshot $snapshot): ?int
+    {
+        if (! $this->looksLikeFirstOrdinalReference($normalized)) {
+            return null;
+        }
+
+        return $snapshot->lastResultUserIds()[0] ?? null;
+    }
+
+    protected function looksLikeFirstOrdinalReference(string $normalized): bool
+    {
+        $padded = " {$normalized} ";
+
+        foreach ([' el primero ', ' la primera ', ' primero ', ' primera ', ' first '] as $phrase) {
+            if (str_contains($padded, $phrase)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function looksLikeUserTargetingPrompt(string $normalized): bool

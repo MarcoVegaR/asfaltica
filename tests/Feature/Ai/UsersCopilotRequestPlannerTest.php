@@ -60,6 +60,27 @@ it('resolves entity references from the previous single result context', functio
         ->and(data_get($plan, 'resolved_entity.id'))->toBe($user->id);
 });
 
+it('resolves first ordinal references from previous search results', function () {
+    $planner = new UsersCopilotRequestPlanner;
+    $firstUser = User::factory()->create(['name' => 'Carlos Uno']);
+    $secondUser = User::factory()->create(['name' => 'Carlos Dos']);
+
+    $plan = $planner->plan('muéstrame el primero', new CopilotConversationSnapshot([
+        'last_capability_key' => 'users.search',
+        'last_result_user_ids' => [$firstUser->id, $secondUser->id],
+        'last_result_count' => 2,
+    ]));
+
+    expect($plan)
+        ->toMatchArray([
+            'intent_family' => 'read_detail',
+            'capability_key' => 'users.detail',
+            'proposal_vs_execute' => 'execute',
+        ])
+        ->and(data_get($plan, 'resolved_entity.id'))->toBe($firstUser->id)
+        ->and($plan['clarification_state'])->toBeNull();
+});
+
 it('returns clarification when follow-up context is missing', function () {
     $planner = new UsersCopilotRequestPlanner;
 

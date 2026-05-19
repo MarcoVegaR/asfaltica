@@ -920,6 +920,54 @@ it('reconstructs count follow-ups from the previous native search snapshot', fun
         ->assertJsonPath('response.meta.diagnostics.source_of_truth', 'conversation_snapshot');
 });
 
+it('resolves first ordinal follow-ups from the previous native search snapshot', function () {
+    config()->set('ai.providers.openai.api_key', '');
+    config()->set('ai.providers.gemini.api_key', '');
+    config()->set('ai.providers.anthropic.api_key', '');
+
+    $user = authorizedCopilotOperator();
+
+    User::factory()->active()->create([
+        'name' => 'Carlos Alpha',
+        'email' => 'carlos.alpha@example.com',
+    ]);
+    User::factory()->active()->create([
+        'name' => 'Carlos Beta',
+        'email' => 'carlos.beta@example.com',
+    ]);
+
+    UsersCopilotAgent::fake([
+        fakeCopilotResponse(),
+        fakeCopilotResponse(),
+    ])->preventStrayPrompts();
+
+    $searchResponse = $this->actingAs($user)
+        ->postJson(route('system.users.copilot.messages'), [
+            'prompt' => 'Busca usuarios llamados Carlos',
+        ])
+        ->assertSuccessful()
+        ->assertJsonPath('response.intent', 'search_results')
+        ->assertJsonPath('response.meta.fallback', false);
+
+    $firstResultId = $searchResponse->json('response.cards.0.data.users.0.id');
+
+    expect($firstResultId)->toBeInt();
+
+    $this->actingAs($user)
+        ->postJson(route('system.users.copilot.messages'), [
+            'prompt' => 'muéstrame el primero',
+            'conversation_id' => $searchResponse->json('conversation_id'),
+        ])
+        ->assertSuccessful()
+        ->assertJsonPath('response.intent', 'user_context')
+        ->assertJsonPath('response.cards.0.kind', 'user_context')
+        ->assertJsonPath('response.cards.0.data.user.id', $firstResultId)
+        ->assertJsonPath('response.meta.capability_key', 'users.detail')
+        ->assertJsonPath('response.meta.fallback', false);
+
+    UsersCopilotAgent::assertNeverPrompted();
+});
+
 it('reconstructs count follow-ups from the previous gemini search snapshot', function () {
     config()->set('ai-copilot.providers.default', 'gemini');
 
