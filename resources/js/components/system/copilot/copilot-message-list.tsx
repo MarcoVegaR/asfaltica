@@ -313,9 +313,7 @@ function DeniedCard({
                                     key={alt.label}
                                     variant="outline"
                                     size="sm"
-                                    onClick={() =>
-                                        onSelectPrompt?.(alt.prompt)
-                                    }
+                                    onClick={() => onSelectPrompt?.(alt.prompt)}
                                     disabled={!onSelectPrompt}
                                 >
                                     {alt.label}
@@ -350,8 +348,8 @@ function ContinuationConfirmCard({
                 </p>
                 {card.data.minutes_elapsed !== null && (
                     <p className="text-xs text-muted-foreground">
-                        Ultima interaccion hace aprox {card.data.minutes_elapsed}{' '}
-                        minutos.
+                        Ultima interaccion hace aprox{' '}
+                        {card.data.minutes_elapsed} minutos.
                     </p>
                 )}
                 {options.length > 0 && (
@@ -361,9 +359,7 @@ function ContinuationConfirmCard({
                                 key={option.value}
                                 variant="outline"
                                 size="sm"
-                                onClick={() =>
-                                    onSelectPrompt?.(option.label)
-                                }
+                                onClick={() => onSelectPrompt?.(option.label)}
                                 disabled={!onSelectPrompt}
                             >
                                 {option.label}
@@ -464,7 +460,10 @@ function InterpretationHeader({
 }
 
 function ResolutionBanner({ resolution }: { resolution: CopilotResolution }) {
-    if (resolution.state === 'resolved' && resolution.action_boundary === 'none') {
+    if (
+        resolution.state === 'resolved' &&
+        resolution.action_boundary === 'none'
+    ) {
         return null;
     }
 
@@ -562,10 +561,7 @@ function renderCard(
 
     if (card.kind === 'partial_notice') {
         return (
-            <PartialNoticeCard
-                key={`${card.kind}-${card.title}`}
-                card={card}
-            />
+            <PartialNoticeCard key={`${card.kind}-${card.title}`} card={card} />
         );
     }
 

@@ -71,6 +71,9 @@ class TestUsersSeeder extends Seeder
 
             User::factory()
                 ->count($remaining)
+                ->sequence(fn ($sequence): array => [
+                    'email' => sprintf('test-user-%02d@example.com', $sequence->index + 1),
+                ])
                 ->create()
                 ->each(function (User $user) use ($assignableRoles): void {
                     $rolesToAssign = $assignableRoles->random(min(rand(1, 3), $assignableRoles->count()));

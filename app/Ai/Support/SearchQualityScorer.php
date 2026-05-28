@@ -17,8 +17,8 @@ class SearchQualityScorer
 {
     /**
      * @param  array<string, mixed>  $requestedFilters  filtros que el usuario pidio.
-     * @param  array<string, mixed>  $appliedFilters    filtros efectivamente aplicados.
-     * @param  int  $resultCount cantidad de resultados devueltos.
+     * @param  array<string, mixed>  $appliedFilters  filtros efectivamente aplicados.
+     * @param  int  $resultCount  cantidad de resultados devueltos.
      * @return array{
      *     score: float,
      *     coverage: float,
