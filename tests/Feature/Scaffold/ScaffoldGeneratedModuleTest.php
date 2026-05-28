@@ -10,6 +10,8 @@ $GLOBALS['generated_scaffold_backups'] ??= [];
 
 afterEach(function () {
     cleanupGeneratedScaffoldArtifacts();
+
+    $this->artisan('migrate:fresh --no-interaction')->assertSuccessful();
 });
 
 it('verifies a writable scaffold after the documented manual integration steps', function () {
