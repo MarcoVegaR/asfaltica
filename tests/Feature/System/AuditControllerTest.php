@@ -387,10 +387,12 @@ it('returns localized metadata labels for known and unknown security metadata ke
         ->get(route('system.audit.show', ['source' => 'security', 'id' => $log->id]))
         ->assertOk()
         ->assertInertia(fn ($page) => $page
-            ->where('event.metadata.0.key', 'email_attempted')
-            ->where('event.metadata.0.label', 'Email intentado')
-            ->where('event.metadata.1.key', 'custom_key')
-            ->where('event.metadata.1.label', 'Custom key')
+            ->where('event.metadata', function ($metadata): bool {
+                $metadataByKey = collect($metadata)->keyBy('key');
+
+                return $metadataByKey->get('email_attempted')['label'] === 'Email intentado'
+                    && $metadataByKey->get('custom_key')['label'] === 'Custom key';
+            })
         );
 });
 
