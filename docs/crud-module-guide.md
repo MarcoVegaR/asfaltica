@@ -185,10 +185,10 @@ Use scaffold automation for repetitive structure. Do **not** extract shared CRUD
 8. [Breadcrumb Flow](#8-breadcrumb-flow)
 9. [Lifecycle Operations](#9-lifecycle-operations)
 10. [Five-Layer Security Model](#10-five-layer-security-model)
-11. [Checklist A — Module Consistency](#checklist-a--module-consistency)
-12. [Checklist B — Lifecycle Operations](#checklist-b--lifecycle-operations)
-13. [Checklist C — Soft Delete](#checklist-c--soft-delete)
-14. [Checklist D — Visual Verification](#checklist-d--visual-verification)
+11. [Checklist A — Module Consistency](#checklist-a-module-consistency)
+12. [Checklist B — Lifecycle Operations](#checklist-b-lifecycle-operations)
+13. [Checklist C — Soft Delete](#checklist-c-soft-delete)
+14. [Checklist D — Visual Verification](#checklist-d-visual-verification)
 
 ---
 

@@ -84,9 +84,25 @@ composer run local:schedule
 php artisan test --compact
 vendor/bin/pint --dirty --format agent
 npm run build
+mkdocs build --strict
 ```
 
 Use `npm run build` when you want a production asset build. Use `npm run dev` if you only want Vite.
+
+## Documentation
+
+Technical documentation lives in `docs/` and is served by MkDocs Material. The README stays as the quickstart; use the MkDocs site for curated architecture, development, operations, reference, and ADR material.
+
+Published documentation target: `https://marcovegar.github.io/boilerplate-laravel13/`.
+
+Install the pinned documentation dependencies and validate the site with:
+
+```bash
+python -m pip install -r requirements.txt
+mkdocs build --strict
+```
+
+GitHub Actions validates documentation on pull requests and publishes it to GitHub Pages from `main`.
 
 ## Mailpit
 
