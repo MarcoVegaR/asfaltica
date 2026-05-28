@@ -1,7 +1,12 @@
 site_name: Boilerplate Laravel
 site_description: Documentación técnica del boilerplate Laravel/Inertia
 site_url: https://marcovegar.github.io/boilerplate-laravel13/
-repo_url: https://github.com/MarcoVegaR/boilerplate-laravel13
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/MarcoVegaR/boilerplate-laravel13
+      name: Repositorio en GitHub
 
 theme:
   name: material
