@@ -1,6 +1,10 @@
 # Primeros pasos
 
-Estado: vigente
+!!! info "Ficha documental"
+    - Estado: `vigente`
+    - Tipo: `tutorial`
+    - Audiencia: personas que levantan el proyecto localmente
+    - Fuente verificable: `README.md`, `.env.example`, `composer.json`, `package.json` y `mkdocs.yml`
 
 Usa el `README.md` como quickstart operativo del repositorio. Este sitio amplía ese punto de entrada con documentación técnica curada.
 

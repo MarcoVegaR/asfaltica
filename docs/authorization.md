@@ -1,6 +1,15 @@
 # Autorización — Guía Operacional
 
+!!! info "Ficha documental"
+    - Estado: `vigente`
+    - Tipo: `how-to`
+    - Audiencia: desarrolladores que agregan rutas, permisos, roles o lógica de acceso
+    - Fuente verificable: seeders de permisos, policies, middleware, FormRequests, rutas y tests de autorización
+
 Este documento describe las convenciones de autorización del proyecto. Es la referencia de cabecera para cualquier desarrollador que añada rutas, permisos, roles o lógica de acceso.
+
+!!! warning "Credenciales"
+    Este documento no publica passwords ni credenciales concretas. Para validar usuarios, roles y permisos de ejemplo, usa fuentes verificables como seeders, factories y tests.
 
 ---
 
@@ -241,7 +250,7 @@ El seeder crea:
 | Rol           | `super-admin`                                                    |
 | Permisos      | 7 permisos de sistema (ver tabla abajo)                          |
 | Asignación    | `super-admin` recibe los 7 permisos                              |
-| Usuario local | `test@mailinator.com` / `12345678` (solo en `local` y `testing`) |
+| Usuario local | Usuario de desarrollo creado solo en `local` y `testing`; consulta el valor exacto en seeders y tests. |
 
 #### Permisos de sistema creados
 

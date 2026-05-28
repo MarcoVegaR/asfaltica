@@ -1,5 +1,11 @@
 # Documentación técnica
 
+!!! info "Ficha documental"
+    - Estado: `vigente`
+    - Tipo: `referencia`
+    - Audiencia: mantenedores, desarrolladores y revisores técnicos
+    - Fuente verificable: `docs/`, `mkdocs.yml`, código, tests y configuración versionada
+
 Documentación técnica curada del boilerplate Laravel/Inertia. Este portal organiza arquitectura, desarrollo, operación, referencias y decisiones para que el proyecto pueda crecer sin deuda documental.
 
 <div class="grid cards" markdown>
@@ -18,7 +24,7 @@ Documentación técnica curada del boilerplate Laravel/Inertia. Este portal orga
 
 -   :material-code-braces: **Desarrollo**
 
-    Convenciones para construir módulos, mantener consistencia y evitar bifurcaciones innecesarias.
+    Convenciones para construir módulos, incluyendo la sección CRUD dividida por intención de lectura.
 
     [Ver desarrollo](development/index.md)
 
@@ -40,6 +46,18 @@ Documentación técnica curada del boilerplate Laravel/Inertia. Este portal orga
 
     [Ver ADRs](adr/index.md)
 
+-   :material-clipboard-text-clock-outline: **Reportes**
+
+    Auditorías técnicas y documentos históricos que no son decisiones arquitectónicas.
+
+    [Ver reportes](reports/index.md)
+
+-   :material-scale-balance: **Gobernanza**
+
+    Política editorial, estados documentales e inventario temporal de normalización.
+
+    [Ver gobernanza](governance/documentation-policy.md)
+
 </div>
 
 !!! warning "Fuente de verdad"
@@ -50,6 +68,7 @@ Documentación técnica curada del boilerplate Laravel/Inertia. Este portal orga
 
 ## Gobernanza documental
 
+- La política editorial vive en [Política documental](governance/documentation-policy.md).
 - No se mantienen catálogos completos manuales cuando pueden obtenerse por comando o inspección automatizada.
 - Cada documento debe indicar o conservar su estado cuando su vigencia no sea obvia.
 - Todo PR relevante debe declarar impacto documental en el checklist de revisión.
@@ -60,17 +79,17 @@ Documentación técnica curada del boilerplate Laravel/Inertia. Este portal orga
 === "Documentos"
 
     - `vigente`: recomendado para trabajo actual.
-    - `histórico`: se conserva para contexto, pero no guía trabajo nuevo.
+    - `historico`: se conserva para contexto, pero no guía trabajo nuevo.
     - `reemplazado`: sustituido por otro documento o ADR.
     - `borrador`: aún no aprobado como guía estable.
     - `deprecated`: sigue existiendo por compatibilidad, pero no debe ampliarse.
 
 === "ADRs"
 
-    - `proposed`: decisión en discusión.
-    - `accepted`: decisión vigente.
-    - `superseded`: reemplazada por otro ADR.
-    - `rejected`: decisión descartada.
+    - Propuesto (`proposed`): decisión en discusión.
+    - Aceptado (`accepted`): decisión vigente.
+    - Reemplazado (`superseded`): reemplazada por otro ADR.
+    - Rechazado (`rejected`): decisión descartada.
 
 ## Referencias derivables
 
@@ -86,8 +105,11 @@ Estas referencias no deben mantenerse como catálogos manuales completos:
 
 ## Inventario inicial
 
-- Guías técnicas existentes: `authorization.md`, `crud-module-guide.md`, `operability-guide.md`.
-- ADRs existentes: `adr/ADR-005-audit-boundary.md`, `adr/ADR-007-logging-and-correlation.md`, `adr/ADR-008-queue-and-scheduler-policy.md`, `adr/ADR-009-crud-module-standard.md`, `adr/ADR-011-copilot-backend-audit.md`.
+- Guías técnicas existentes: `authorization.md`; las rutas `crud-module-guide.md` y `operability-guide.md` quedan como stubs de compatibilidad hacia sus secciones normalizadas.
+- Sección CRUD normalizada: `development/crud/index.md` y guías de estándar, scaffold, backend, frontend, autorización/pruebas y lifecycle.
+- Sección Operaciones normalizada: `operations/index.md` y guías de servicios locales, logging/correlación, auditoría, colas/scheduler, storage y excepciones.
+- ADRs existentes: `adr/ADR-005-audit-boundary.md`, `adr/ADR-007-logging-and-correlation.md`, `adr/ADR-008-queue-and-scheduler-policy.md`, `adr/ADR-009-crud-module-standard.md`.
+- Reportes reclasificados: `reports/copilot-backend-audit-2026-04-15.md`; la ruta histórica `adr/ADR-011-copilot-backend-audit.md` se conserva como stub.
 - PRDs en raíz: `PRD-*.md`; se tratan como producto/historia/gobernanza hasta clasificarlos.
 - Ayuda de usuario: `resources/help/**/*.md`; no forma parte de la documentación técnica MkDocs.
 

@@ -1,6 +1,10 @@
 # Desarrollo
 
-Estado: vigente
+!!! info "Ficha documental"
+    - Estado: `vigente`
+    - Tipo: `referencia`
+    - Audiencia: desarrolladores que implementan y verifican cambios
+    - Fuente verificable: `composer.json`, `package.json`, tests, Pint, ESLint y comandos Artisan
 
 Este índice reúne guías para construir y verificar cambios dentro del boilerplate sin romper sus convenciones.
 
@@ -17,9 +21,9 @@ Este índice reúne guías para construir y verificar cambios dentro del boilerp
 
 -   :material-view-dashboard-edit-outline: **Módulos CRUD**
 
-    Contrato operativo para pantallas, FormRequests, policies, rutas y pruebas.
+    Guías por intención para estándar, scaffold, backend, frontend, autorización, pruebas y ciclo de vida.
 
-    [Leer guía CRUD](../crud-module-guide.md)
+    [Leer sección CRUD](crud/index.md)
 
 </div>
 
@@ -32,3 +36,7 @@ Prefiere comandos verificables frente a listas manuales:
 - `php artisan test --compact`
 - `vendor/bin/pint --dirty --format agent`
 - `npm run build`
+
+## Compatibilidad
+
+La ruta histórica [Guía CRUD](../crud-module-guide.md) se conserva como stub para enlaces antiguos. No debe ampliarse con contenido nuevo.

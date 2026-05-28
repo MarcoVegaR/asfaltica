@@ -1,8 +1,10 @@
 # Boilerplate Laravel 13
 
-Laravel 13 local starter based on the official React starter kit, using Inertia, Fortify, Wayfinder, PostgreSQL, Redis, Mailpit, MinIO, and the Laravel AI SDK.
+Boilerplate local para Laravel 13 basado en el starter oficial de React, con Inertia, Fortify, Wayfinder, PostgreSQL, Redis, Mailpit, MinIO y Laravel AI SDK.
 
-## Stack
+La documentación técnica publicada vive en GitHub Pages: <https://marcovegar.github.io/boilerplate-laravel13/>.
+
+## Stack principal
 
 - Laravel 13
 - React 19 + Inertia v2
@@ -11,71 +13,71 @@ Laravel 13 local starter based on the official React starter kit, using Inertia,
 - Redis
 - Mailpit
 - MinIO
-- Laravel Boost + Laravel AI SDK + Gentleman ecosystem workflows
+- Laravel Boost + Laravel AI SDK + flujos del ecosistema Gentleman
 
-## Starter Kit Notes
+## Nota del starter
 
-This project starts from the official `laravel/react-starter-kit` and already includes authentication through Fortify plus Inertia-based React pages.
+El proyecto parte de `laravel/react-starter-kit` y ya incluye autenticación con Fortify más páginas React renderizadas con Inertia.
 
-## Local Services
+## Servicios locales
 
-The intended local baseline is:
+La línea base local esperada es:
 
-- PostgreSQL on `127.0.0.1:5432`
-- Redis on `127.0.0.1:6379`
-- Mailpit SMTP on `127.0.0.1:1025`
-- Mailpit web UI on `http://127.0.0.1:8025`
-- MinIO S3 API on `http://127.0.0.1:9000`
-- MinIO console on `http://127.0.0.1:9001`
+- PostgreSQL en `127.0.0.1:5432`
+- Redis en `127.0.0.1:6379`
+- Mailpit SMTP en `127.0.0.1:1025`
+- UI web de Mailpit en `http://127.0.0.1:8025`
+- API S3 de MinIO en `http://127.0.0.1:9000`
+- Consola de MinIO en `http://127.0.0.1:9001`
 
-Environment defaults are configured for:
+Los valores por defecto del entorno están preparados para:
 
-- locale: `es` with `en` fallback
+- idioma: `es` con fallback `en`
 - faker locale: `es_VE`
-- timezone: `America/Caracas`
-- cache/session/queue: Redis
-- object storage: MinIO through Laravel's `s3` disk
+- zona horaria: `America/Caracas`
+- cache/sesiones/colas: Redis
+- almacenamiento de objetos: MinIO mediante el disco Laravel `s3`
 
-## First-Time Setup
+## Instalación inicial
 
-1. Install PHP and Node dependencies:
+1. Instala dependencias PHP y Node:
 
 ```bash
 composer install
 npm install
 ```
 
-2. Prepare the environment file:
+2. Prepara el archivo de entorno:
 
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-3. Make sure PostgreSQL, Redis, Mailpit, and MinIO are running.
+3. Asegura que PostgreSQL, Redis, Mailpit y MinIO estén corriendo.
 
-4. Run the database migrations:
+4. Ejecuta las migraciones:
 
 ```bash
 php artisan migrate
 ```
 
-5. Start the application:
+5. Inicia la aplicación:
 
 ```bash
 composer run dev
 ```
 
-This runs the Laravel server, queue listener, log tailing, and Vite together.
+Este comando ejecuta juntos el servidor Laravel, el listener de colas, el seguimiento de logs y Vite.
 
-For dedicated local worker processes:
+Para procesos locales dedicados:
 
 ```bash
 composer run local:queue
 composer run local:schedule
 ```
 
-## Daily Commands
+## Comandos diarios
 
 ```bash
 composer run dev
@@ -87,79 +89,79 @@ npm run build
 mkdocs build --strict
 ```
 
-Use `npm run build` when you want a production asset build. Use `npm run dev` if you only want Vite.
+Usa `npm run build` para compilar assets de producción. Usa `npm run dev` si solo necesitas Vite.
 
-## Documentation
+## Documentación
 
-Technical documentation lives in `docs/` and is served by MkDocs Material. The README stays as the quickstart; use the MkDocs site for curated architecture, development, operations, reference, and ADR material.
+La documentación técnica vive en `docs/` y se sirve con MkDocs Material. Este README es el quickstart principal; usa el sitio publicado para arquitectura, desarrollo, operaciones, referencia y ADRs curados.
 
-Published documentation target: `https://marcovegar.github.io/boilerplate-laravel13/`.
+Sitio publicado: <https://marcovegar.github.io/boilerplate-laravel13/>.
 
-Install the pinned documentation dependencies and validate the site with:
+Instala las dependencias fijadas de documentación y valida el sitio con:
 
 ```bash
 python -m pip install -r requirements.txt
 mkdocs build --strict
 ```
 
-GitHub Actions validates documentation on pull requests and publishes it to GitHub Pages from `main`.
+GitHub Actions valida documentación en pull requests y publica GitHub Pages desde `main`.
 
 ## Mailpit
 
-Mail is configured for Mailpit via SMTP:
+El correo está configurado para Mailpit vía SMTP:
 
 - `MAIL_MAILER=smtp`
 - `MAIL_HOST=127.0.0.1`
 - `MAIL_PORT=1025`
 
-Open the inbox UI at `http://127.0.0.1:8025`.
+Abre la bandeja en `http://127.0.0.1:8025`.
 
 ## Redis
 
-Redis is the default local backing service for:
+Redis es el servicio local por defecto para:
 
 - cache
-- sessions
-- queues
+- sesiones
+- colas
 
-This keeps local development closer to a Laravel Cloud-style runtime without pretending cloud infrastructure is present.
+Esto acerca el desarrollo local a un runtime estilo Laravel Cloud sin asumir infraestructura cloud real.
 
 ## MinIO
 
-Local object storage is configured through Laravel's `s3` disk and points to MinIO by default:
+El almacenamiento local de objetos usa el disco Laravel `s3` y apunta a MinIO por defecto:
 
 - endpoint: `http://127.0.0.1:9000`
-- console: `http://127.0.0.1:9001`
+- consola: `http://127.0.0.1:9001`
 - bucket: `boilerplate-laravel13-local`
 
-The MinIO credentials are defined in `.env` through `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD`, then reused by the `AWS_*` variables Laravel expects.
+Las credenciales locales de MinIO se definen en `.env` con `MINIO_ROOT_USER` y `MINIO_ROOT_PASSWORD`, y luego se reutilizan mediante las variables `AWS_*` esperadas por Laravel.
 
 ## Laravel AI SDK
 
-The official Laravel AI SDK is installed and published.
+El Laravel AI SDK oficial está instalado y publicado.
 
-- Package: `laravel/ai`
-- Config: `config/ai.php`
-- Conversation tables: published and migrated
+- Paquete: `laravel/ai`
+- Configuración: `config/ai.php`
+- Tablas de conversación: publicadas y migradas
 
-Add whichever provider key you want to use in `.env`, for example:
+Añade en `.env` la clave del proveedor que quieras usar, por ejemplo:
 
 - `OPENAI_API_KEY`
 - `GEMINI_API_KEY`
 - `ANTHROPIC_API_KEY`
-- `OLLAMA_BASE_URL` for local Ollama usage
+- `OLLAMA_BASE_URL` para uso local con Ollama
 
-The default AI config currently points text generation at OpenAI and image generation at Gemini until you choose otherwise.
+La configuración AI por defecto apunta generación de texto a OpenAI y generación de imágenes a Gemini hasta que elijas otro proveedor.
 
-## AI Tooling In This Repo
+## Tooling AI en este repositorio
 
-- Laravel Boost is available for Laravel-aware docs, logs, database inspection, and framework tooling.
-- Laravel AI SDK is available for application-level agents, tools, embeddings, and conversation storage.
-- Gentle ecosystem coordination is documented in `AGENTS.md` for memory, SDD workflow, and human-in-the-loop practices.
+- Laravel Boost está disponible para documentación contextual, logs, inspección de base de datos y tooling del framework.
+- Laravel AI SDK está disponible para agentes de aplicación, tools, embeddings y almacenamiento conversacional.
+- La coordinación del ecosistema Gentleman está documentada en `AGENTS.md` para memoria, SDD y prácticas human-in-the-loop.
 
-## Verification
+## Verificación
 
-Useful focused checks:
+Checks enfocados útiles:
 
 ```bash
 php artisan test --compact tests/Feature/ExampleTest.php tests/Feature/DashboardTest.php tests/Feature/Auth/AuthenticationTest.php
@@ -169,7 +171,11 @@ vendor/bin/pint --dirty --format agent
 php artisan config:show app
 ```
 
-## Notes
+## English Summary
 
-- If frontend changes are not visible, run `npm run build`, `npm run dev`, or `composer run dev`.
-- If Redis, Mailpit, or MinIO are not running, queue, session, cache, mail, or object-storage behavior will fail in expected ways until those local services are available.
+This repository is a Laravel 13 + Inertia React boilerplate. Start with the setup commands above, then use the published documentation at <https://marcovegar.github.io/boilerplate-laravel13/> for architecture, development, operations, references, and ADRs.
+
+## Notas
+
+- Si los cambios frontend no se ven, ejecuta `npm run build`, `npm run dev` o `composer run dev`.
+- Si Redis, Mailpit o MinIO no están corriendo, colas, sesiones, cache, correo o almacenamiento de objetos fallarán de forma esperada hasta que esos servicios locales estén disponibles.

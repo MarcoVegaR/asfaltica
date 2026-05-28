@@ -1,6 +1,10 @@
 # Arquitectura
 
-Estado: vigente
+!!! info "Ficha documental"
+    - Estado: `vigente`
+    - Tipo: `explicacion`
+    - Audiencia: mantenedores y desarrolladores que modifican límites técnicos
+    - Fuente verificable: ADRs, `app/`, `routes/`, `config/` y tests
 
 Este índice agrupa decisiones y guías que explican cómo está organizado el sistema y qué límites no deberían romperse sin un ADR.
 
@@ -17,9 +21,9 @@ Este índice agrupa decisiones y guías que explican cómo está organizado el s
 
 -   :material-view-dashboard-edit-outline: **Guía CRUD**
 
-    Convención base para módulos administrativos y scaffold.
+    Convención base para módulos administrativos y scaffold, derivada de ADR-009.
 
-    [Leer guía CRUD](../crud-module-guide.md)
+    [Leer sección CRUD](../development/crud/index.md)
 
 -   :material-file-sign-outline: **ADRs**
 

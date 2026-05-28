@@ -38,25 +38,45 @@ plugins:
 
 nav:
   - Inicio: index.md
+  - Gobernanza:
+      - Política documental: governance/documentation-policy.md
+      - Inventario temporal Fase 2: governance/phase-2-document-inventory.md
   - Primeros pasos: getting-started.md
   - Arquitectura:
       - Índice: architecture/index.md
       - Autorización: authorization.md
-      - Guía CRUD: crud-module-guide.md
   - Desarrollo:
       - Índice: development/index.md
+      - CRUD:
+          - Índice: development/crud/index.md
+          - Estándar: development/crud/standard.md
+          - Generador scaffold: development/crud/scaffold-generator.md
+          - Rutas, controller y FormRequest: development/crud/routing-controller-requests.md
+          - Frontend Inertia y Wayfinder: development/crud/frontend-inertia-wayfinder.md
+          - Autorización y pruebas: development/crud/authorization-testing.md
+          - Ciclo de vida: development/crud/lifecycle-operations.md
+      - Ruta histórica CRUD: crud-module-guide.md
   - Operaciones:
       - Índice: operations/index.md
-      - Guía de operabilidad: operability-guide.md
+      - Servicios locales: operations/local-services.md
+      - Logging y correlación: operations/logging-correlation.md
+      - Auditoría: operations/auditing.md
+      - Colas y scheduler: operations/queues-scheduler.md
+      - Storage: operations/storage.md
+      - Excepciones operativas: operations/exceptions.md
+      - Ruta histórica de operabilidad: operability-guide.md
   - Referencia:
       - Índice: reference/index.md
+  - Reportes:
+      - Índice: reports/index.md
+      - Auditoría backend del Copilot: reports/copilot-backend-audit-2026-04-15.md
+      - Ruta histórica ADR-011: adr/ADR-011-copilot-backend-audit.md
   - ADR:
       - Índice: adr/index.md
-      - ADR-005 Audit Boundary: adr/ADR-005-audit-boundary.md
-      - ADR-007 Logging and Correlation: adr/ADR-007-logging-and-correlation.md
-      - ADR-008 Queue and Scheduler Policy: adr/ADR-008-queue-and-scheduler-policy.md
-      - ADR-009 CRUD Module Standard: adr/ADR-009-crud-module-standard.md
-      - ADR-011 Copilot Backend Audit: adr/ADR-011-copilot-backend-audit.md
+      - ADR-005 Límite de auditoría: adr/ADR-005-audit-boundary.md
+      - ADR-007 Logging y correlación: adr/ADR-007-logging-and-correlation.md
+      - ADR-008 Colas y scheduler: adr/ADR-008-queue-and-scheduler-policy.md
+      - ADR-009 Estándar de módulos CRUD: adr/ADR-009-crud-module-standard.md
 
 markdown_extensions:
   - admonition
