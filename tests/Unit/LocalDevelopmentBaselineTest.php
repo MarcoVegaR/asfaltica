@@ -9,7 +9,7 @@ test('local development baseline includes minio storage defaults and worker scri
         ->toContain('FILESYSTEM_DISK=s3')
         ->toContain('MINIO_ROOT_USER=minio-laravel13')
         ->toContain('MINIO_ENDPOINT=http://127.0.0.1:9000')
-        ->toContain('MINIO_BUCKET=boilerplate-laravel13-local')
+        ->toContain('MINIO_BUCKET=asfaltica-local')
         ->toContain('AWS_ENDPOINT="${MINIO_ENDPOINT}"')
         ->toContain('AWS_USE_PATH_STYLE_ENDPOINT=true');
 
