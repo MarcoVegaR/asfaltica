@@ -26,7 +26,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check deploy configuration
+        id: deploy-config
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          if [ -z "$DEPLOY_HOST" ] || [ -z "$DEPLOY_PORT" ] || [ -z "$DEPLOY_SSH_KEY" ] || [ -z "$DEPLOY_USER" ]; then
+            echo "::notice::Deployment skipped because one or more deploy secrets are not configured."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+
       - name: Configure SSH key
+        if: steps.deploy-config.outputs.enabled == 'true'
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
@@ -38,6 +55,7 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
 
       - name: Trust deploy host
+        if: steps.deploy-config.outputs.enabled == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
@@ -45,6 +63,7 @@ jobs:
           ssh-keyscan -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
 
       - name: Run remote deploy
+        if: steps.deploy-config.outputs.enabled == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
